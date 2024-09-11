@@ -1,4 +1,4 @@
-# PyLotus
+# PyLotusLamp
 This is a simple package to control led lights over bluetooth, as the apps these cheap lights come with are quite undesirable. I dug through a decompilaton of the Lotus lantern X app to make this and then saw someone made their own [app](https://www.reddit.com/r/LedLightStrips/comments/137fh4x/i_didnt_like_the_suggested_app_for_my_led_strips/)... (so I didn't have to dig through that stuff, but it was too late lol).
 
 That said it seems that the LLX app sends diferent codes than that user describes. Most of them still work though (excepting speed command).
