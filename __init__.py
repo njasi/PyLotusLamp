@@ -22,20 +22,16 @@ def time_to_rainbow_color(ms: int) -> str:
 
 
 async def main():
-    test = Controller("UUID or Mac address")
+    test = Controller("45565567-2A48-6016-0FF2-245FD466B765")
 
     await test.connect()
     await test.turn_on()
     await test.set_brightness(100)
 
-    test.apply_state_function(time_to_rainbow_color)
+    test.set_state_function(time_to_rainbow_color)
+    test.start_state_loop()
 
-    # TODO make setting the function start the animation
-    #       perhaps a .animate func idk
-
-    while True:
-        await test.update()
-        await asyncio.sleep(0.03)
+    await asyncio.sleep(10)
 
 
 if __name__ == "__main__":

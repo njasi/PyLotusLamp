@@ -14,7 +14,9 @@ logger.setLevel(logging.INFO)
 
 
 class Controller:
-    "A class to control a single device"
+    """
+    A class to control a single LED device.
+    """
 
     def __init__(
         self,
@@ -49,6 +51,8 @@ class Controller:
         self.power = False
 
         self._state_function = None
+        self._task = None
+        self._delta_t = 0.02
 
         # self._color_b_arr
 
@@ -187,28 +191,62 @@ class Controller:
         logger.debug(f"[{self.device_address}] Set power to: {power}")
 
     async def turn_on(self):
+        """
+        Turn the device power off
+        """
         await self.set_power(True)
 
     async def turn_off(self):
+        """
+        Turn the device power on
+        """
         await self.set_power(False)
 
     async def toggle_power(self):
+        """
+        Toggle the power state on/off
+        """
         await self.set_power(not self.power)
 
-    def apply_state_function(self, cb):
+    def set_state_function(self, cb):
         """
         Set the state function; a function which returns a color given the time
 
         # TODO add brightness and other state control as well
-        # TODO add proper asyncio loop or smth
         """
-
         self._state_function = cb
 
-    async def update(self):
+    async def _state_loop(self):
         """
-        Update the color according to the state function
+        State loop wrapper
+        """
+        while True:
+            await asyncio.sleep(self._delta_t)
+            color = self._state_function(time.time())
+            await self.set_color_hex(color)
+
+    def start_state_loop(self, delta_t=0.02):
+        """
+        Start the state loop
+
+        delta_t, float  the time between update steps
+        """
+        self._delta_t = delta_t
+
+        if self._state_function is None:
+            # TODO raise error instead
+            return
+
+        self._task = asyncio.create_task(self._state_loop())
+
+    def stop_state_loop(self):
+        """
+        Stop the state loop
         """
 
-        color = self._state_function(time.time())
-        await self.set_color_hex(color)
+        if self._task is None:
+            # TODO raise error instead
+            return
+
+        self._task.cancel()
+        self._task = None
