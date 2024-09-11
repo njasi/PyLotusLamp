@@ -7,7 +7,7 @@ That said it seems that the LLX app sends diferent codes than that user describe
 Supposedly any device which would use the "Lotus Lantern X" app (with the execption of the two in one car device I believe; I remember seeing something about it in the decompilation but ignored it at the time).
 
 ### Tested devices
-- MELK-0C21
+- MELK-OC21
 
 ## Install
 TODO

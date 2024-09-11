@@ -22,7 +22,7 @@ def time_to_rainbow_color(ms: int) -> str:
 
 
 async def main():
-    test = Controller("45565567-2A48-6016-0FF2-245FD466B765")
+    test = Controller("mac address uuid")
 
     await test.connect()
     await test.turn_on()
